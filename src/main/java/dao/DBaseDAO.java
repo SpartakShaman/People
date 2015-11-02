@@ -46,13 +46,13 @@ public class DBaseDAO extends AbstractDAO{
             preparedStatement.setString(1, people.getSurname());
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
-                String username = rs.getString("namee");
-                String surname = rs.getString("surname");
-                String birthday = rs.getString("birthday");
-                System.out.println(username + " " + surname + " " + birthday);
+                people.setName(rs.getString("namee"));
+                people.setSurname(rs.getString("surname"));
+                people.setBirthday(rs.getString("birthday"));
+                System.out.println(people.getName() + " " + people.getSurname() + " " + people.getBirthday());           
             } 
             preparedStatement.close();
-            con.close();
+            con.close(); 
         } catch (Exception ex) {
             Logger.getLogger(DBaseDAO.class.getName()).log(Level.SEVERE, null, ex);
 
@@ -66,17 +66,74 @@ public class DBaseDAO extends AbstractDAO{
 
     @Override
     public void save(People people) {
-        System.out.println(this.getClass().getName() + " Save = "+people);
+    String selectSQL = "insert into people(namee, surname, birthday) values (?, ?, ?)";
+        try {
+            con = getConnection();
+
+            preparedStatement = con.prepareStatement(selectSQL);
+            preparedStatement.setString(1, people.getName());
+            preparedStatement.setString(2, people.getSurname());
+            preparedStatement.setString(3, people.getBirthday());
+            preparedStatement.executeQuery();
+
+            preparedStatement.close();
+            con.close(); 
+        } catch (Exception ex) {
+            Logger.getLogger(DBaseDAO.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            preparedStatement = null;
+            con = null;
+        }   
+    // System.out.println(this.getClass().getName() + " Save = "+people);
     }
 
     @Override
     public void update(People people) {
-        System.out.println(this.getClass().getName() + " Update = "+people);
+     String selectSQL = "update people set namee=?, birthday=?  where surname = ?";
+        try {
+            con = getConnection();
+
+            preparedStatement = con.prepareStatement(selectSQL);
+            preparedStatement.setString(1, people.getName());
+            preparedStatement.setString(2, people.getBirthday());
+            preparedStatement.setString(3, people.getSurname());
+            preparedStatement.executeQuery();
+
+            preparedStatement.close();
+            con.close(); 
+        } catch (Exception ex) {
+            Logger.getLogger(DBaseDAO.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            preparedStatement = null;
+            con = null;
+        }      
+
+    //System.out.println(this.getClass().getName() + " Update = "+people);
     }
 
     @Override
     public void delete(People people) {
-        System.out.println(this.getClass().getName() + " Delete = "+people);
+    String selectSQL = "delete from people where surname= ?";
+        try {
+            con = getConnection();
+
+            preparedStatement = con.prepareStatement(selectSQL);
+            preparedStatement.setString(1, people.getSurname());
+            preparedStatement.executeQuery();
+
+            preparedStatement.close();
+            con.close(); 
+        } catch (Exception ex) {
+            Logger.getLogger(DBaseDAO.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            preparedStatement = null;
+            con = null;
+        }      
+        
+    //System.out.println(this.getClass().getName() + " Delete = "+people);
     }
     
 }

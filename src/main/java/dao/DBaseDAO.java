@@ -74,7 +74,7 @@ public class DBaseDAO extends AbstractDAO{
             preparedStatement.setString(1, people.getName());
             preparedStatement.setString(2, people.getSurname());
             preparedStatement.setString(3, people.getBirthday());
-            preparedStatement.executeQuery();
+            preparedStatement.execute();
 
             preparedStatement.close();
             con.close(); 
@@ -98,7 +98,7 @@ public class DBaseDAO extends AbstractDAO{
             preparedStatement.setString(1, people.getName());
             preparedStatement.setString(2, people.getBirthday());
             preparedStatement.setString(3, people.getSurname());
-            preparedStatement.executeQuery();
+            preparedStatement.execute();
 
             preparedStatement.close();
             con.close(); 
@@ -121,7 +121,7 @@ public class DBaseDAO extends AbstractDAO{
 
             preparedStatement = con.prepareStatement(selectSQL);
             preparedStatement.setString(1, people.getSurname());
-            preparedStatement.executeQuery();
+            preparedStatement.execute();
 
             preparedStatement.close();
             con.close(); 
